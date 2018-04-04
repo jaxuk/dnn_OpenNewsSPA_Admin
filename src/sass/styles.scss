@@ -1,0 +1,40 @@
+/*@import "variables";
+@import "global";*/
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+@import './variables';
+@import './mixins';
+@import '../../node_modules/angular-tree-component/dist/angular-tree-component.css';
+@import "../../node_modules/ng2-file-input/ng2-file-input.scss";
+@import "~ngx-toastr/toastr-bs4-alert";
+
+.ng-touched.ng-invalid, [validate].ng-touched .ng-invalid {
+  @extend .is-invalid;
+}
+.ng2-file-input .ng2-file-input-drop-container {
+  border: 2px dashed #ced4da;
+}
+
+main {
+  .border-bottom {
+    border-bottom: 1px solid #dee2e6 !important;
+  }
+}
+.date-time {
+  .ngb-tp {
+    .ngb-tp-hour .form-control {
+      border-radius: 0;
+    }
+
+    .ngb-tp-minute .form-control {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    .ngb-tp-spacer {
+      @extend .input-group-text;
+      border-radius: 0;
+    }
+  }
+}
+
+

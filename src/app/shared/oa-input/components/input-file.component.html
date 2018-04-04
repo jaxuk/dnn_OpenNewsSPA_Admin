@@ -1,0 +1,129 @@
+<div class="row input-file" dropZone [disabled]="dropZoneDisabled" (fileDragOver)="onFileDragOver()" (fileDragLeave)="onFileDragLeave()" (fileDrop)="onFileDrop($event)">
+    <ng-container *ngIf="!minimal; else minimalButton">    
+        <div class="col-12" *ngIf="isDragOver">
+            <div class="drop-zone"></div>
+        </div>
+        <div class="col-12" *ngIf="isNotNullOrEmpty() && !isDragOver">
+          <div class="file-preview table" *ngIf="(displayType=='table')">
+            <table class="table table-bordered table-hover">
+              <tr class="file-preview-item" *ngFor="let file of model; let i = index">
+                <td class="file-content">
+                  <img src="{{ file.icon }}" *ngIf="file.icon">
+                </td>
+                <td>
+                  <p>{{ file.file.name }}</p>
+                  <samp>{{ file.size }}</samp>
+                </td>
+                <td>
+                  <div *ngIf="showTitleDescription">
+                    <input type="text" class="form-control title"
+                           name="txtTitle" id="txtTitle" placeholder="Title" [(ngModel)]="file.title"
+                           required>
+                    <textarea rows="2" class="form-control description" [(ngModel)]="file.description"
+                              name="txtSummray" id="txtSummray" placeholder="Description"></textarea>
+                  </div>
+                  <div class="progress" *ngIf="(file.percentage>0)" style="height: 20px;">
+                    <div class="progress-bar" role="progressbar" style="width:{{file.percentage}};" aria-valuemin="0" aria-valuemax="100">{{file.percentage}}%</div>
+                  </div>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-outline-secondary btn-sm" title="Remove" (click)="onRemoveFile(i)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm" title="Download">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm" title="Preview">
+                    <i class="fas fa-search-plus"></i>
+                  </button>
+                </td>
+              </tr>
+            </table>
+            
+          </div>
+            <div class="file-preview grid" *ngIf="(displayType=='grid')">
+
+              <button type="button" class="close" (click)="onRemove()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <div class="file-preview-container">
+                <div class="file-preview-item" *ngFor="let file of model; let i = index">
+                  <button type="button" class="close" (click)="onRemoveFile(i)">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <div class="file-content">
+                    <img src="{{ file.icon }}" *ngIf="file.icon">
+                  </div>
+                  <div class="file-thumbnail-footer">
+                    <div class="file-form" *ngIf="showTitleDescription">
+                      <div class="form-group">
+                        <input type="text" class="form-control"
+                               name="txtTitle" id="txtTitle" placeholder="Title" [(ngModel)]="file.title" required>
+                      </div>
+                      <div class="form-group">
+                        <textarea rows="2" class="form-control" [(ngModel)]="file.description"
+                                  name="txtSummray" id="txtSummray" placeholder="Description"></textarea>
+                      </div>
+                    </div>
+                    <div class="file-footer-caption" *ngIf="file.file">
+                      <p>{{ file.file.name }}</p>
+                      <samp>{{ file.size }}</samp>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="col-12 input-group file-caption-main" *ngIf="!isDragOver">
+            <div class="form-control" [ngClass]="{'input-active': isInputActive}">
+                <div class="file-caption-name" tabindex="500">
+                    <i class="fas fa-file" aria-hidden="true" *ngIf="isNotNullOrEmpty()"></i>
+                    <span>{{ getInputText() }}</span>
+                </div>
+            </div>
+            <span class="input-group-btn">
+                <button class="btn btn-secondary btn-action" type="button" title="Clear selected files" (click)="onRemove()" *ngIf="isNotNullOrEmpty()">
+                    <i class="fas fa-trash" aria-hidden="true"></i>  
+                    <span class="d-none d-md-inline-flex">{{ textRemove }}</span>
+                </button>
+            </span>
+            <span class="input-group-btn" *ngIf="!disableUpload">
+                <button class="btn btn-secondary btn-action" type="button" title="Upload selected files" (click)="onUpload()" *ngIf="isNotNullOrEmpty()">
+                    <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>  
+                    <span class="d-none d-md-inline-flex">{{ textUpload }}</span>
+                </button>
+            </span>
+            <span class="input-group-btn">
+                <div class="btn btn-primary btn-file" [ngClass]="{'disabled': dropZoneDisabled}">
+                    <i class="fas fa-folder-open" aria-hidden="true"></i>
+                    <span class="d-none d-md-inline-flex">{{ textBrowse }}</span>
+                    <input id="{{ inputId }}" class="file" name="input-file-name" type="file" 
+                        accept="{{ inputAccept }}" 
+                        [attr.multiple]="inputMaxFiles > 1 ? true : null" 
+                        [disabled]="dropZoneDisabled"
+                        (change)="onChange($event)" 
+                        (blur)="onBlur()" 
+                        (focus)="onFocus()" 
+                        #inputFile>
+                </div>
+            </span>
+        </div>
+    </ng-container>
+    <ng-template #minimalButton>
+        <div class="col-12" *ngIf="isDragOver; else minimalInput">
+            <div class="drop-zone-minimal"></div>
+        </div>
+        <ng-template #minimalInput>
+            <div class="col-12">
+                <div class="btn btn-primary btn-file">
+                    <span class="d-none d-md-inline-flex">{{ textBrowse }}</span>
+                    <input id="{{ inputId }}" class="file" name="input-file-name" type="file" 
+                        accept="{{ inputAccept }}"
+                        [attr.multiple]="inputMaxFiles > 1 ? true : null"
+                        (change)="onChange($event)"
+                        #inputFile>
+                </div>
+            </div>
+        </ng-template>
+    </ng-template>
+</div>

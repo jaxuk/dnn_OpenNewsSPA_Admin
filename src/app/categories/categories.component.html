@@ -1,0 +1,39 @@
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h2>Categories</h2>
+</div>
+<div class="text-right">
+  
+</div>
+<div class="row">
+  <div class="col-md m-2">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col">
+            Category Tree 
+          </div>
+          <div class="col text-right">
+            <button type="button" (click)="newCategory()" class="btn btn-primary btn-sm">New</button>
+          </div>
+        </div>
+        
+      </div>
+      <div class="card-body">
+        
+        <tree-root id="catTree" (moveNode)="onMoveNode($event)" [focused]="true" [nodes]="categories" [options]="treeOptions"
+                   (activate)="onCatChange($event)">
+          <ng-template #treeNodeTemplate let-node let-index="index">
+            <span [class]="node.data.className" [class.title]="true">{{ node.data.Name }}</span>
+          </ng-template>
+          <template #loadingTemplate>
+            Loading, please hold....
+          </template>
+        </tree-root>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9 m-2" >
+    <app-category-form *ngIf="selectedCategory!=null" [category]="selectedCategory" (onUpserted)="categoryUpserted($event)" (onCancel)="cancelEditing($event)" (onDelete)="categoryDeleted($event)"></app-category-form>
+  </div>
+</div>

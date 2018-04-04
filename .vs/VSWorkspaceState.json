@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src\\app",
+    "\\src\\app\\article-form",
+    "\\src\\app\\shared\\dynamic-form",
+    "\\src\\app\\shared\\dynamic-form\\components",
+    "\\src\\app\\shared\\dynamic-form\\containers",
+    "\\src\\app\\shared\\dynamic-form\\containers\\dynamic-form",
+    "\\src\\app\\shared\\dynamic-form\\models",
+    "\\src\\app\\shared\\services"
+  ],
+  "SelectedNode": "\\src",
+  "PreviewInSolutionExplorer": false
+}

@@ -1,0 +1,42 @@
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{fileName()}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div ngForm [formGroup]="fileForm">
+    <fieldset [disabled]="isSubmitting">
+      <div class="modal-body">
+        <div class="image-container" *ngIf="isImage()">
+          <img src="{{imageUrl()}}&maxwidth=800&maxheight=800" />
+        </div>
+        <div class="icon-container" *ngIf="!isImage()">
+          <i class="fas {{fileIconClass()}}"></i>
+        </div>
+        <hr />
+        <div class="form-group">
+          <input formControlName="Title" type="text" class="form-control"
+                 name="txtTitle" id="txtTitle" placeholder="Title">
+        </div>
+        <div class="form-group">
+          <textarea formControlName="Description" rows="3" class="form-control"
+                    name="txtDescription" id="txtDescription" placeholder="Description"></textarea>
+        </div>
+      </div>
+    </fieldset>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="c('Close click')">Close</button>
+      <button type="button" class="btn btn-danger" (click)="removeFileHandler();c('Close click')">
+        <i class="far fa-trash-alt"></i>
+      </button>
+    </div>
+  </div>
+</ng-template>
+<div class="image-container" *ngIf="isImage()" (click)="open(content)">
+  <img src="{{imageUrl()}}&maxwidth=300&maxheight=300" />
+</div>
+<div class="icon-container" *ngIf="!isImage()" (click)="open(content)">
+  <i class="fas {{fileIconClass()}}"></i>
+  <p>{{fileName()}}</p>
+</div>

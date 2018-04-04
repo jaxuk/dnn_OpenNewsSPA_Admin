@@ -1,0 +1,28 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+  <h2>Import from Ventrain News Articles Module</h2>
+  <!--<div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group mr-2">
+      <a class="btn btn-sm btn-primary" routerLink="/article/-1">Create Article</a>
+    </div>
+  </div>-->
+</div>
+<div class="p-3 mb-2 bg-warning text-dark">
+  <p>Warning this will delete all current content within this module and
+  attempt to import from the module specified.</p>
+</div>
+
+<fieldset [disabled]="isSubmitting">
+  <div class="input-group">
+    <select class="custom-select" id="ddNaModule">
+      <option selected>Choose...</option>
+      <option *ngFor="let opt of naModules"
+              value="{{ opt.Key }}">
+        {{ opt.Value }}
+      </option>
+    </select>
+    <div class="input-group-append">
+      <button class="btn btn-primary" type="button" (click)="importModule()">Import</button>
+    </div>
+  </div>
+</fieldset>
+

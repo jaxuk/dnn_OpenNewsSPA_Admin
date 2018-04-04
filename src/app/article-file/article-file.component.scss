@@ -1,0 +1,19 @@
+
+.file-modal {
+  .image-container {
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  .icon-container {
+    display: block;
+
+    svg {
+      display: block;
+      width: 100%;
+      height: 50px;
+    }
+  }
+}

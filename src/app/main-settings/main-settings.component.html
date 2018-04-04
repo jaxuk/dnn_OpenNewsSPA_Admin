@@ -1,0 +1,155 @@
+<div ngForm [formGroup]="settingsForm" (validSubmit)="onSubmit()" validate >
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h2>Main Settings</h2>
+  </div>
+  <fieldset [disabled]="isSubmitting">
+    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" [hidden]="!settings">
+      <ngb-panel title="Basic Settings">
+        <ng-template ngbPanelContent>
+          <div class="form-group">
+            <label for="txtArticlesPerPage">Articles per page</label>
+            <input formControlName="BasicArticlesPerPage" type="number" class="form-control" name="txtArticlesPerPage" id="txtArticlesPerPage" placeholder="10" required>
+          </div>
+          <div class="form-group">
+            <label for="ddTemplate">Rendering Template</label>
+            <select formControlName="BasicRenderingTemplate" class="form-control" id="ddTemplate" name="ddTemplate">
+              <option *ngFor="let folder of Templates"
+                      [value]="folder">
+                {{folder}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="ddServerTimeZone">Server TimeZone</label>
+            <select formControlName="BasicServerTimeZone" class="form-control" id="ddServerTimeZone" name="ddServerTimeZone">
+              <option *ngFor="let timeZone of TimeZones"
+                      [value]="timeZone.Key">
+                {{timeZone.Value}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="ddSortBy">Sort By</label>
+            <select formControlName="BasicSortBy" class="form-control" id="ddSortBy" name="ddSortBy">
+              <option *ngFor="let sortBy of SortByOpts"
+                      [value]="sortBy">
+                {{sortBy}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="ddSortDirection">Sort Direction</label>
+            <select formControlName="BasicSortDirection" class="form-control" id="ddSortDirection" name="ddSortDirection">
+              <option value="ASC">Ascending</option>
+              <option value="DESC">Descending</option>
+            </select>
+          </div>
+          <div class="form-check">
+            <input formControlName="BasicAllowCoreSearchIntegration" type="checkbox" class="form-check-input" id="chkAllowCoreSearchIntegration" name="chkAllowCoreSearchIntegration">
+            <label class="form-check-label" for="chkAllowCoreSearchIntegration">Allow Core Search Integration</label>
+          </div>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel title="Category Settings">
+        <ng-template ngbPanelContent>
+          <!--<div class="form-group">
+            <label for="ddDefaultCategories">Default Categories</label>
+            <select [(ngModel)]="settings.CategoryDefaultCategories" formControlName="CategoryDefaultCategories" class="form-control" id="ddDefaultCategories" size="4" name="ddDefaultCategories"></select>
+          </div>-->
+          <div class="form-check">
+            <input formControlName="CategoryIncludeInBreadcrumb" type="checkbox" class="form-check-input" id="chkIncludeInBreadcrumb" name="chkIncludeInBreadcrumb">
+            <label class="form-check-label" for="chkIncludeInBreadcrumb">Include in breadcrumb</label>
+          </div>
+          <div class="form-check">
+            <input formControlName="CategoryRequireCategory" type="checkbox" class="form-check-input" id="chkRequireCategory" name="chkRequireCategory">
+            <label class="form-check-label" for="chkRequireCategory">Require Category</label>
+          </div>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel title="File Settings">
+        <ng-template ngbPanelContent>
+          <div class="form-group">
+            <label for="txtDefaultFileFolder">Default File Folder</label>
+            <type-ahead formControlName="FileDefaultFileFolder" [suggestions]="obs_folders$"
+                        placeholder="Start typing the folder name" custom="false" [complex]="true"
+                        class="form-control"
+                        ></type-ahead>
+          </div>
+          <div class="form-group">
+            <label for="txtImageAllowedTypes">File Allowed Types</label>
+            <type-ahead formControlName="FileAllowedTypes"
+                        placeholder="start typing file extensions e.g. pdf"
+                        [custom]="true"
+                        [complex]="false"
+                        [multi]="true"
+                        class="form-control"></type-ahead>
+          </div>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel title="Image Settings">
+        <ng-template ngbPanelContent>
+          <div class="form-group">
+            <label for="txtDefaultImageFolder">Default Image Folder</label>
+            <type-ahead formControlName="ImageDefaultImageFolder" [suggestions]="obs_folders$"
+                        placeholder="start typing file extensions e.g. jpg" custom="false" [complex]="true"
+                        class="form-control"></type-ahead>
+          </div>
+          <div class="form-group">
+            <label for="txtImageAllowedTypes">Image Allowed Types</label>
+            <type-ahead formControlName="ImageAllowedTypes"
+                        placeholder="Start typing the folder name"
+                        [custom]="true"
+                        [complex]="false"
+                        [multi]="true"
+                        class="form-control"></type-ahead>
+          </div>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel title="Article Form Settings">
+        <ng-template ngbPanelContent>
+
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel title="Notification Settings">
+        <ng-template ngbPanelContent>
+          <div class="form-check">
+            <input formControlName="NotificationNotifyApproversOnSubmission" type="checkbox" class="form-check-input" id="chkNotifyApproversOnSubmission" name="chkNotifyApproversOnSubmission">
+            <label class="form-check-label" for="chkNotifyApproversOnSubmission">Notify Approvers on Submission</label>
+          </div>
+          <div class="form-check">
+            <input formControlName="NotificationNotifyApproversOnApproval" type="checkbox" class="form-check-input" id="chkNotifyApproversApproval" name="chkNotifyApproversApproval">
+            <label class="form-check-label" for="chkNotifyApproversOnApproval">Notify Approvers on Approval</label>
+          </div>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel title="SEO Settings">
+        <ng-template ngbPanelContent>
+          <div class="form-check">
+            <input formControlName="SEORemovePagePathFromURL" type="checkbox" class="form-check-input" id="chkSEORemovePagePathFromURL" name="chkSEORemovePagePathFromURL">
+            <label class="form-check-label" for="chkSEORemovePagePathFromURL">Remove Page Path From URLs</label>
+          </div>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel title="Permission Settings">
+        <ng-template ngbPanelContent>
+
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+    <app-list-errors [errors]="errors"></app-list-errors>
+    <div class="action-buttons mt-3 mb-3 float-right">
+      <button (click)="submitForm()" type="button" class="btn btn-primary">Save</button>
+    </div>
+  </fieldset>
+  <div *ngIf="isDebugMode()">
+    <fieldset>
+      <legend>settingsForm Value:</legend>
+      <pre>{{ settingsForm.value | json:2 }}</pre>
+    </fieldset>
+    <fieldset>
+      <legend>settings Value:</legend>
+      <pre>{{ settings | json:2 }}</pre>
+    </fieldset>
+  </div>
+  
+</div>

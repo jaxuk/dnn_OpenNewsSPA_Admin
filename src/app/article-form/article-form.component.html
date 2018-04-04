@@ -1,0 +1,257 @@
+<div ngForm [formGroup]="articleForm" (validSubmit)="onSubmit()" validate>
+  <fieldset [disabled]="isSubmitting">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+      <h2>Article</h2>
+      <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+          <a *ngIf="deleteable()" target="_blank" class="btn btn-sm btn-outline-secondary" href="{{article.vwURL}}">Preview</a>
+          <button class="btn btn-sm btn-primary" (click)="clickSaveDraft()">Save as draft</button>
+          <button class="btn btn-sm btn-success" (click)="clickPublish()">Publish</button>
+          <button *ngIf="deleteable()" class="btn btn-sm btn-danger" (click)="clickDelete()">Delete</button>
+          <button class="btn btn-sm btn-outline-secondary" (click)="clickCancel()">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col"></div>
+      <div class="col-8">
+        <div class="article-form">
+          <div class="form-group">
+            <input (blur)="titleChanged($event)" formControlName="Title" type="text" class="form-control form-control-lg"
+                   name="txtTitle" id="txtTitle" placeholder="Title" required>
+          </div>
+          <div class="form-group">
+            <label for="txtDescription">Summary</label>
+            <textarea formControlName="Summary" rows="4" class="form-control"
+                      name="txtSummary" id="txtSummary" placeholder="Summary"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="txtDescription">Body</label>
+            <textarea formControlName="Body" rows="10" class="form-control"
+                      name="txtBody" id="txtBody" placeholder="Body" required></textarea>
+            <small id="txtBodyHelpBlock" class="form-text text-muted">
+              You may use MarkDown for your article body
+            </small>
+          </div>
+          <div class="form-group">
+            <label for="finputImages">Images</label>
+            <div class="card">
+              <div class="card-body">
+                <div class="uploaded" *ngIf="articleForm.controls.Images.controls.length > 0">
+                  <div formArrayName="Images" [sortablejsOptions]="imageSortableOpts" [sortablejs]="articleForm.controls.Images" class="image-preview">
+                    <div class="image-preview-item" *ngFor="let file of articleForm.controls.Images.controls; let i = index">
+                      <div class="panel-body" [formGroupName]="i">
+                        <app-article-file [group]="articleForm.controls.Images.controls[i]"
+                                          [fileInfo]="imageUploads[i]"
+                                          [index]="i"
+                                          (removeFile)="onRemoveFile('Images',$event)"
+                                          >
+                        </app-article-file>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <input-file
+                            [inputAccept]="joinForInputAccept(allowedImages())"
+                            [extensions]="allowedImages()"
+                            multiple="true"
+                            fileDisplayType="images"
+                            [uploadFolder]="imageFolder()"
+                            (fileUploaded)="onImageUploaded($event)"
+                            ></input-file>
+
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="finputImages">Files</label>
+            <div class="card">
+              <div class="card-body">
+                <div class="uploaded" *ngIf="articleForm.controls.Files.controls.length > 0">
+                  <div formArrayName="Files" [sortablejs]="articleForm.controls.Files" class="image-preview">
+                    <div class="image-preview-item" *ngFor="let file of articleForm.controls.Files.controls; let i = index">
+                      <div class="panel-body" [formGroupName]="i">
+                        <app-article-file [group]="articleForm.controls.Files.controls[i]"
+                                          [fileInfo]="fileUploads[i]"
+                                          [index]="i"
+                                          (removeFile)="onRemoveFile('Files',$event)"
+                                          >
+                        </app-article-file>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <input-file [inputAccept]="joinForInputAccept(allowedFiles())"
+                            [extensions]="allowedFiles()"
+                            multiple="true"
+                            fileDisplayType="files"
+                            [uploadFolder]="fileFolder()"
+                            (fileUploaded)="onFileUploaded($event)"></input-file>
+
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="txtCategories">Categories</label>
+            <type-ahead formControlName="Categories" [suggestions]="obs_allcategories$"
+                        placeholder="Categories" class="form-control" 
+                        [multi]="true" [complex]="true" nameField="Name" idField="CategoryID" >
+            </type-ahead>
+          </div>
+          <div class="form-group">
+            <label for="txtTags">Tags</label>
+            <type-ahead formControlName="Tags" [suggestions]="obs_strTags$"
+                        placeholder="Tags"
+                        class="form-control"
+                        [multi]="true" [custom]="true"></type-ahead>
+            <small id="txtTagsHelpBlock" class="form-text text-muted">
+              Start typing your tags, select existing tags or hit enter to add a new tag.
+            </small>
+          </div>
+          
+          <div class="row">
+            <div class="col-md">
+              <div class="form-group">
+                <label>Author</label>
+                <type-ahead formControlName="Author" [suggestions]="obs_authors$"
+                            placeholder="Select the author"
+                            class="form-control"
+                            [complex]="true"
+                            ></type-ahead>
+              </div>
+              <div class="form-group">
+                <label>Featured</label>
+                <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioFeatured" formControlName="IsFeatured">
+                  <label ngbButtonLabel class="btn-outline-primary">
+                    <input ngbButton type="radio" [value]=true> Yes
+                  </label>
+                  <label ngbButtonLabel class="btn-outline-secondary">
+                    <input ngbButton type="radio" [value]=false> No
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Auto Archive</label>
+                <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioAutoArchive" formControlName="AutoArchive">
+                  <label ngbButtonLabel class="btn-outline-primary">
+                    <input ngbButton type="radio" [value]=true> Yes
+                  </label>
+                  <label ngbButtonLabel class="btn-outline-secondary">
+                    <input ngbButton type="radio" [value]=false> No
+                  </label>
+                </div>
+
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-group">
+                <label>Publish</label>
+                <div class="input-group date-time">
+                  <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                      <i class="far fa-calendar-alt"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" placeholder="yyyy-mm-dd"
+                         name="dpPublish" formControlName="PublishDate" ngbDatepicker #d="ngbDatepicker">
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="">
+                      <i class="far fa-clock"></i>
+                    </span>
+                  </div>
+                  <ngb-timepicker formControlName="PublishTime" [spinners]="false"></ngb-timepicker>
+                </div>
+              </div>
+              <div *ngIf="ShowArchive()" class="form-group">
+                <label>Archive</label>
+                <div class="input-group date-time">
+                  <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button">
+                      <i class="far fa-calendar-alt"></i>
+                    </button>
+                  </div>
+                  <input class="form-control" placeholder="yyyy-mm-dd"
+                         name="dpArchive" formControlName="ArchiveDate" ngbDatepicker #d2="ngbDatepicker">
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="">
+                      <i class="far fa-clock"></i>
+                    </span>
+                  </div>
+                  <ngb-timepicker formControlName="ArchiveTime" [spinners]="false"></ngb-timepicker>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <div class="custom-fields" formGroupName="CustomTypes">
+            <h5>Custom Fields</h5>
+            <div class="card" *ngFor="let cDef of customDefs; let i = index">
+              <div class="card-body" [formGroupName]="cDef.TypeName"> 
+                <h6 class="card-title">{{cDef.Name}}</h6>
+                <dynamic-form
+                    
+                    [config]="cDef.Fields"
+                    [form]="articleForm.controls['CustomTypes'].controls[cDef.TypeName]">
+                </dynamic-form>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <h5>SEO</h5>
+          <div class="form-group">
+            <label for="txtUrl">URL Slug</label>
+            <input (blur)="urlChanged($event)" formControlName="URL" type="text" class="form-control"
+                   name="txtUrl" id="txtUrl" placeholder="Url">
+          </div>
+          <div class="form-group">
+            <label for="txtMetaTitle">Meta Title</label>
+            <input formControlName="MetaTitle" type="text" class="form-control"
+                   name="txtMetaTitle" id="txtMetaTitle" placeholder="Meta Title">
+          </div>
+          <div class="form-group">
+            <label for="txtMetaDescription">Meta Description</label>
+            <textarea formControlName="MetaDescription" rows="4" class="form-control"
+                      name="txtMetaDescription" id="txtMetaDescription" placeholder="Meta Description"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="txtMetaKeywords">Meta Keywords</label>
+            <textarea formControlName="MetaKeywords" rows="3" class="form-control"
+                      name="txtMetaKeywords" id="txtMetaKeywords" placeholder="Meta Keywords"></textarea>
+          </div>
+          <hr />
+          <h5>Other</h5>
+          <div class="form-group">
+            <label for="txtPageHeadText">Page Header Text</label>
+            <textarea formControlName="PageHeadText" rows="3" class="form-control"
+                      name="txtPageHeadText" id="txtPageHeadText" placeholder="Page Header Text"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        
+      </div>
+    </div>
+    <app-list-errors [errors]="errors"></app-list-errors>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-top">
+      <div></div>
+      <div class="btn-toolbar mt-2 mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+          <button class="btn btn-primary" (click)="clickSaveDraft()">Save as draft</button>
+          <button class="btn btn-success" (click)="clickPublish()">Publish</button>
+          <button *ngIf="deleteable()" class="btn btn-danger" (click)="clickDelete()">Delete</button>
+          <button class="btn btn-outline-secondary" (click)="clickCancel()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <div *ngIf="isDebugMode()">
+    <fieldset>
+      <legend>articleForm Value:</legend>
+      <pre>{{ articleForm.value | json:2 }}</pre>
+    </fieldset>
+    <fieldset>
+      <legend>article Value:</legend>
+      <pre>{{ article | json:2 }}</pre>
+    </fieldset>
+  </div>
+</div>
