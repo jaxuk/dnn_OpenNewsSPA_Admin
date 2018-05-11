@@ -1,15 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\src",
     "\\src\\app",
-    "\\src\\app\\article-form",
-    "\\src\\app\\shared\\dynamic-form",
-    "\\src\\app\\shared\\dynamic-form\\components",
-    "\\src\\app\\shared\\dynamic-form\\containers",
-    "\\src\\app\\shared\\dynamic-form\\containers\\dynamic-form",
-    "\\src\\app\\shared\\dynamic-form\\models",
-    "\\src\\app\\shared\\services"
+    "\\src\\app\\main-settings",
+    "\\src\\environments"
   ],
-  "SelectedNode": "\\src",
+  "SelectedNode": "\\src\\app\\main-settings\\main-settings.component.html",
   "PreviewInSolutionExplorer": false
 }

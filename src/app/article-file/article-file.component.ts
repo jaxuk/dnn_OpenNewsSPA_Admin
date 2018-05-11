@@ -2,6 +2,7 @@ import { Component, Input, Output, ViewEncapsulation, EventEmitter } from '@angu
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FileViewModel } from '../shared/index';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   //moduleId: module.id,
@@ -23,7 +24,7 @@ export class ArticleFileComponent {
   @Output('removeFile') public removeFile: EventEmitter<number> = new EventEmitter<number>();
 
   closeResult: string;
-  constructor(private modalService: NgbModal, private fb: FormBuilder) { }
+  constructor(private modalService: NgbModal, private fb: FormBuilder, private toastr: ToastrService) { }
   //modalref: NgbModalRef;
   open(content) {
     this.modalService.open(content, { windowClass: 'file-modal' }).result.then((result) => {
@@ -43,6 +44,12 @@ export class ArticleFileComponent {
   }
   private fileInfoIsNull() {
     return this.fileInfo == null;
+  }
+  fileId() {
+    return this.fileInfo.FileId;
+  }
+  copyToClipboard() {
+    this.toastr.info('Copied to Clipboard');
   }
   removeFileHandler() {
     if (confirm('Delete. Are you sure?')) {

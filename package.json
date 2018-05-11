@@ -34,6 +34,7 @@
     "ng-confirmation-modal": "^0.2.1",
     "ng2-file-input": "^1.1.0",
     "ng2-select": "^2.0.0",
+    "ngx-clipboard": "^10.0.0",
     "ngx-input-file": "^1.0.2",
     "ngx-toastr": "^8.2.1",
     "ngx-type-ahead": "^1.2.2",

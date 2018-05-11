@@ -23,6 +23,18 @@
           <textarea formControlName="Description" rows="3" class="form-control"
                     name="txtDescription" id="txtDescription" placeholder="Description"></textarea>
         </div>
+        <div class="form-group" *ngIf="isImage()">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Image Code</span>
+            </div>
+            <input type="text" class="form-control" value="[IMAGE:{{fileId()}}]" readonly #inputTarget>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" (click)="copyToClipboard()"  
+                   [ngxClipboard]="inputTarget" >Copy </button>
+            </div>
+          </div>
+        </div>
       </div>
     </fieldset>
     <div class="modal-footer">

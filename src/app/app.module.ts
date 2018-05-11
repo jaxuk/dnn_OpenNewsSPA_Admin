@@ -29,6 +29,7 @@ import { TypeaheadModule } from 'ngx-type-ahead';
 import { SelectModule } from 'ng2-select';
 import { SortablejsModule } from 'angular-sortablejs';
 import { DataTableModule } from 'angular5-data-table';
+import { ClipboardModule } from 'ngx-clipboard';
 
 import {
   ApiService,
@@ -97,7 +98,8 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
     LoadingBarHttpClientModule,
     LoadingBarRouterModule,
     TypeaheadModule,
-    SortablejsModule.forRoot({ animation: 150 })
+    SortablejsModule.forRoot({ animation: 150 }),
+    ClipboardModule
     //AppLoadModule
   ],
   providers: [

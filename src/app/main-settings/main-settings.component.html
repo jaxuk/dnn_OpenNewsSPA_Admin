@@ -91,13 +91,13 @@
           <div class="form-group">
             <label for="txtDefaultImageFolder">Default Image Folder</label>
             <type-ahead formControlName="ImageDefaultImageFolder" [suggestions]="obs_folders$"
-                        placeholder="start typing file extensions e.g. jpg" custom="false" [complex]="true"
+                        placeholder="Start typing the folder name" custom="false" [complex]="true"
                         class="form-control"></type-ahead>
           </div>
           <div class="form-group">
             <label for="txtImageAllowedTypes">Image Allowed Types</label>
             <type-ahead formControlName="ImageAllowedTypes"
-                        placeholder="Start typing the folder name"
+                        placeholder="start typing file extensions e.g. jpg"
                         [custom]="true"
                         [complex]="false"
                         [multi]="true"
@@ -105,11 +105,11 @@
           </div>
         </ng-template>
       </ngb-panel>
-      <ngb-panel title="Article Form Settings">
+      <!--<ngb-panel title="Article Form Settings">
         <ng-template ngbPanelContent>
 
         </ng-template>
-      </ngb-panel>
+      </ngb-panel>-->
       <ngb-panel title="Notification Settings">
         <ng-template ngbPanelContent>
           <div class="form-check">
@@ -130,11 +130,11 @@
           </div>
         </ng-template>
       </ngb-panel>
-      <ngb-panel title="Permission Settings">
+      <!--<ngb-panel title="Permission Settings">
         <ng-template ngbPanelContent>
-
+        TODO
         </ng-template>
-      </ngb-panel>
+      </ngb-panel>-->
     </ngb-accordion>
     <app-list-errors [errors]="errors"></app-list-errors>
     <div class="action-buttons mt-3 mb-3 float-right">

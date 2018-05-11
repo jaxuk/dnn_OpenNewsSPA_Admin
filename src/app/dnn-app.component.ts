@@ -27,11 +27,19 @@ export class DnnAppComponent {
     // prevent asp.net submit action caused by enter-keys inside our app
     if(!enableDefaultSubmit){
       // console.log("dnn-sxc-angular - will prevent enter-buttons from causing submit")
-      element.nativeElement.addEventListener('keydown', function(e: any) {
-        if(e.keyCode==13)
+      element.nativeElement.addEventListener('keydown', function (e: any) {
+        if (!checkEnter(e))
+        //if (e.keyCode == 13)
+          //console.log('Enter prevented');
+          //console.log(e);
           e.preventDefault();
       });
   
+    }
+    function checkEnter(e) {
+      e = e || event;
+      var txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
+      return txtArea || (e.keyCode || e.which || e.charCode || 0) !== 13;
     }
   }
 }
