@@ -30,4 +30,5 @@ export class ArticleViewModel {
   public Tags: Array<TagViewModel>;
   public Categories: Array<CategoryViewModel>;
   public CustomTypes: any;
+  public Actions: Array<string>;
 }

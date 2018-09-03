@@ -59,6 +59,11 @@ export class ArticlesService {
       .pipe(map(data => data));
   }
 
+  Approve(articleId): Observable<ArticleViewModel> {
+    return this.apiService.post('/API/dnn_OpenNewsSPA/Articles/Approve', { articleId: articleId })
+      .pipe(map(data => data));
+  }
+
   Delete(articleId): Observable<ArticleViewModel> {
     return this.apiService.post('/API/dnn_OpenNewsSPA/Articles/Delete', { articleId: articleId})
       .pipe(map(data => data));

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ArticleFormComponent } from '../article-form/article-form.component'
 import { Router, ActivatedRoute } from '@angular/router';
@@ -16,7 +16,7 @@ import {
   TagViewModel,
   ArticleQueryParams
 } from '../shared';
-import { DataTableResource, DataTableParams } from 'angular5-data-table';
+import { DataTableResource, DataTableParams, DataTable } from 'angular5-data-table';
 
 @Component({
   selector: 'app-articles',
@@ -33,6 +33,8 @@ export class ArticlesComponent implements OnInit {
   //itemResource = new DataTableResource(this.articles);
   //items = [];
   articleCount = 0;
+
+  @ViewChild(DataTable) articlesTable: DataTable;
 
   constructor(
     private route: ActivatedRoute,
@@ -51,6 +53,21 @@ export class ArticlesComponent implements OnInit {
   }
   categoriesToString(item: ArticleViewModel) {
     return item.Categories.map(cat => { return cat.Name }).join(",");
+  }
+  approve(articleId: number) {
+    this.articlesService.Approve(articleId).subscribe(
+      data => {
+        const id = +this.route.snapshot.paramMap.get('id');
+        this.isSubmitting = false;
+        this.toastr.info('Article Approved');
+        this.articlesTable.reloadItems();
+      },
+      err => {
+        this.toastr.error('error approving article');
+        this.errors = err;
+        this.isSubmitting = false;
+      }
+    );
   }
 
   //loadArticles() {

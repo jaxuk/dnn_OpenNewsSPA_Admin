@@ -7,7 +7,8 @@ import { ApiService } from './api.service';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import {
-  UserViewModel
+  UserViewModel,
+  RoleViewModel
 } from './../models';
 import { FileUploadModel, FileViewModel } from '../index';
 import { SettingsService } from './settings.service';
@@ -29,16 +30,24 @@ export class HelperService {
   }
 
   
-  getAuthors(inRole): Observable<UserViewModel[]> {
+  getAuthors(): Observable<UserViewModel[]> {
     console.log('GetAll getAuthors()');
-    return this.apiService.post('/API/dnn_OpenNewsSPA/User/GetList', { inRole: inRole})
+    return this.apiService.post('/API/dnn_OpenNewsSPA/User/GetAuthorList')
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
+  getRoles(): Observable<string[]> {
+    console.log('GetAll getAuthors()');
+    return this.apiService.post('/API/dnn_OpenNewsSPA/Role/GetList')
       .pipe(map(data => {
         return data;
       }));
   }
 
   getNaModules(): Observable<any> {
-    console.log('GetAll getAuthors()');
+    console.log('GetAll GetNAModules()');
     return this.apiService.post('/API/dnn_OpenNewsSPA/Helper/GetNAModules')
       .pipe(map(data => {
         return data;

@@ -113,12 +113,12 @@
       <ngb-panel title="Notification Settings">
         <ng-template ngbPanelContent>
           <div class="form-check">
-            <input formControlName="NotificationNotifyApproversOnSubmission" type="checkbox" class="form-check-input" id="chkNotifyApproversOnSubmission" name="chkNotifyApproversOnSubmission">
-            <label class="form-check-label" for="chkNotifyApproversOnSubmission">Notify Approvers on Submission</label>
+            <input formControlName="NotificationNotifyEditorsOnSubmission" type="checkbox" class="form-check-input" id="chkNotifyApproversOnSubmission" name="chkNotifyApproversOnSubmission">
+            <label class="form-check-label" for="chkNotifyApproversOnSubmission">Notify Editors on Submission</label>
           </div>
           <div class="form-check">
-            <input formControlName="NotificationNotifyApproversOnApproval" type="checkbox" class="form-check-input" id="chkNotifyApproversApproval" name="chkNotifyApproversApproval">
-            <label class="form-check-label" for="chkNotifyApproversOnApproval">Notify Approvers on Approval</label>
+            <input formControlName="NotificationNotifyAuthorsOnApproval" type="checkbox" class="form-check-input" id="chkNotifyApproversApproval" name="chkNotifyApproversApproval">
+            <label class="form-check-label" for="chkNotifyApproversOnApproval">Notify Authors on Approval</label>
           </div>
         </ng-template>
       </ngb-panel>
@@ -130,11 +130,33 @@
           </div>
         </ng-template>
       </ngb-panel>
-      <!--<ngb-panel title="Permission Settings">
+      <ngb-panel title="Permission Settings">
         <ng-template ngbPanelContent>
-        TODO
+          <div class="form-group">
+            <label>Authors Role</label>
+            <type-ahead formControlName="PermissionsAuthorRoles" [suggestions]="obs_authorRole$"
+                        placeholder="Select the authors role"
+                        class="form-control"
+                        custom="false"></type-ahead>
+          </div>
+          <div class="form-group">
+            <label>Editors Role</label>
+            <type-ahead formControlName="PermissionsEditorRoles" [suggestions]="obs_editorsRole$"
+                        placeholder="Select the editor role"
+                        class="form-control"
+                        custom="false"></type-ahead>
+          </div>
+          <div class="form-check">
+            <input formControlName="PermissionsAllowEditorsToSelfPublish" type="checkbox" class="form-check-input" id="chkPermissionsAllowEditorsToSelfPublish" name="chkPermissionsAllowEditorsToSelfPublish">
+            <label class="form-check-label" for="chkPermissionsAllowEditorsToSelfPublish">Allow editors to self publish</label>
+          </div>
+          <div class="form-check">
+            <input formControlName="PermissionsOnlyShowEditorsAndAuthorsForAuthorSelection" type="checkbox" class="form-check-input" id="chkPermissionsOnlyShowEditorsAndAuthorsForAuthorSelection" name="chkPermissionsOnlyShowEditorsAndAuthorsForAuthorSelection">
+            <label class="form-check-label" for="chkPermissionsOnlyShowEditorsAndAuthorsForAuthorSelection">Only show Editors &amp; Authors in Author Selection</label>
+          </div>
+          
         </ng-template>
-      </ngb-panel>-->
+      </ngb-panel>
     </ngb-accordion>
     <app-list-errors [errors]="errors"></app-list-errors>
     <div class="action-buttons mt-3 mb-3 float-right">

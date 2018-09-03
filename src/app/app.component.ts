@@ -31,6 +31,12 @@ export class AppComponent extends DnnAppComponent {
   getLiveModuleUrl() {
     return this.settingsService.getCurrentSettings().PageTabUrl;
   }
+  isEditor() {
+    return this.settingsService.getCurrentSettings().currentUser.isEditor;
+  }
+  isAuthor() {
+    return this.settingsService.getCurrentSettings().currentUser.isAuthor;
+  }
   doSearch(e) {
     if (e.keyCode == 13) {
       this.router.navigate(['/articles']);

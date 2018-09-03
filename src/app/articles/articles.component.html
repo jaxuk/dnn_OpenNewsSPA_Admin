@@ -72,13 +72,22 @@
         <i>Actions</i>
       </ng-template>
       <ng-template #dataTableCell let-item="item">
-        <div class="text-center">
-          <a routerLink="/article/{{item.ArticleID}}" title="Edit" class="btn btn-sm btn-primary">
+        <div class="text-center btn-group">
+          <a *ngIf="item.Actions.includes('Edit')" routerLink="/article/{{item.ArticleID}}" title="Edit" class="btn btn-sm btn-primary">
             <i class="fas fa-pencil-alt"></i>
           </a>
-          <a target="_blank" href="{{item.vwURL}}" title="Preview" class="btn btn-sm btn-primary">
+          <a *ngIf="item.Actions.includes('View')" target="_blank" href="{{item.vwURL}}" title="Preview" class="btn btn-sm btn-secondary">
             <i class="fas fa-eye"></i>
           </a>
+          <a *ngIf="item.Actions.includes('Approve')" (click)="approve(item.ArticleID)" title="Approve" class="btn btn-sm btn-success">
+            <i class="fas fa-check"></i>
+          </a>
+          <a *ngIf="item.Actions.includes('UnApprove')" title="UnApprove" class="btn btn-sm btn-primary">
+            <i class="fas fa-caret-square-left"></i>
+          </a>
+          <!--<a *ngIf="item.Actions.includes('Delete')" title="Delete" class="btn btn-sm btn-danger">
+            <i class="fas fa-trash-alt"></i>
+          </a>-->
         </div>
       </ng-template>
     </data-table-column>

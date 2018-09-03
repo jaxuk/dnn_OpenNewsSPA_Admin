@@ -51,6 +51,8 @@ import { EmailTemplatesComponent } from './email-templates/email-templates.compo
 import { CustomFieldsComponent } from './custom-fields/custom-fields.component';
 import { DynamicFormModule } from './shared/dynamic-form/dynamic-form.module';
 import { ImporterComponent } from './importer/importer.component';
+import { MyArticlesComponent } from './my-articles/my-articles.component';
+import { ApproveArticlesComponent } from './approve-articles/approve-articles.component';
 
 export function getBaseHref(platformLocation: PlatformLocation): string {
   return platformLocation.getBaseHrefFromDOM();
@@ -75,7 +77,9 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
     RenderTemplatesComponent,
     EmailTemplatesComponent,
     CustomFieldsComponent,
-    ImporterComponent
+    ImporterComponent,
+    MyArticlesComponent,
+    ApproveArticlesComponent
   ],
   imports: [
     DynamicFormModule,

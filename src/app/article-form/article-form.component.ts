@@ -386,7 +386,7 @@ export class ArticleFormComponent implements OnInit {
   }
 
   private fetchData() {
-    this.obs_authors$ = this.helperService.getAuthors('');
+    this.obs_authors$ = this.helperService.getAuthors();
     this.obs_allcategories$ = this.categoriesService.GetAll();
     this.obs_alltags$ = this.tagsService.GetAll();
     this.obs_strTags$ = this.obs_alltags$.map((array: TagViewModel[]) => { return array.map(tag => tag.name) });
@@ -488,6 +488,8 @@ export class ArticleFormComponent implements OnInit {
       this.router.navigate(['/articles']);
     }
   }
+
+
   public clickDelete() {
     if (confirm("Are you sure you want to delete this article?")) {
       this.isSubmitting = true;
@@ -529,6 +531,12 @@ export class ArticleFormComponent implements OnInit {
       });
       return ary.join(',');
     }
+  }
+  isEditor() {
+    return this.settingsService.getCurrentSettings().currentUser.isEditor;
+  }
+  isAuthor() {
+    return this.settingsService.getCurrentSettings().currentUser.isAuthor;
   }
   public allowedFiles() {
     return this.settingsService.getCurrentSettings().FileAllowedTypes;

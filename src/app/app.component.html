@@ -14,31 +14,31 @@
       <div class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar ">
         <div class="sidebar-sticky">
           <ul class="nav flex-column">
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isAuthor()">
               <a class="nav-link" [routerLinkActive]="['active']" routerLink="/dashboard">Dashboard</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isAuthor()">
               <a class="nav-link" [routerLinkActive]="['active']" routerLink="/articles">Articles</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isEditor()">
               <a class="nav-link" [routerLinkActive]="['active']" routerLink="/categories">Categories</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isEditor()">
               <a class="nav-link" [routerLinkActive]="['active']" routerLink="/tags">Tags</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isEditor()">
               <a class="nav-link" [routerLinkActive]="['active']" routerLink="/custom-fields">Custom Fields</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isEditor()">
               <a class="nav-link" [routerLinkActive]="['active']" routerLink="/email-templates">Email Templates</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isEditor()">
               <a class="nav-link" [routerLinkActive]="['active']" routerLink="/render-templates">Render Templates</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isEditor()">
               <a class="nav-link" [routerLinkActive]="['active']" routerLink="/main-settings">Settings</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isEditor()">
               <a class="nav-link" [routerLinkActive]="['active']" routerLink="/import">Import</a>
             </li>
           </ul>

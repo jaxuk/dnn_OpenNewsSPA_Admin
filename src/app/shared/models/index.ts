@@ -2,6 +2,7 @@ export * from './main-settings.model';
 export * from './category.model';
 export * from './tag.model';
 export * from './user.model';
+export * from './role.model';
 export * from './article.model';
 export * from './pagedList.model';
 export * from './fileView.model';

@@ -7,9 +7,12 @@ import { ToastrService } from 'ngx-toastr';
 
 import {
   SettingsViewModel,
-  SettingsService
+  SettingsService,
+  HelperService,
+  RoleViewModel
 } from '../shared';
 import { Observable } from 'rxjs/Observable';
+import { AbstractControl } from '@angular/forms/src/model';
 
 @Component({
   selector: 'app-main-settings',
@@ -24,6 +27,8 @@ export class MainSettingsComponent implements OnInit {
   TimeZones = [];
   Templates = [];
   obs_folders$: Observable<string[]>;
+  obs_editorsRole$: Observable<string[]>;
+  obs_authorRole$: Observable<string[]>;
   SortByOpts: string[] = [
     'StartDate',
     'EndDate'
@@ -34,6 +39,7 @@ export class MainSettingsComponent implements OnInit {
     private router: Router,
     private settingsService: SettingsService,
     private toastr: ToastrService,
+    private helperService: HelperService,
     private fb: FormBuilder
   ) {
 
@@ -50,10 +56,13 @@ export class MainSettingsComponent implements OnInit {
       FileDefaultFileFolder: ['', Validators.required],
       ImageDefaultImageFolder: ['', Validators.required],
       SEORemovePagePathFromURL: '',
-      NotificationNotifyApproversOnApproval: '',
-      NotificationNotifyApproversOnSubmission: '',
+      NotificationNotifyAuthorsOnApproval: '',
+      NotificationNotifyEditorsOnSubmission: '',
       ImageAllowedTypes: '',
-      FileAllowedTypes: ''
+      FileAllowedTypes: '',
+      PermissionsEditorRoles: ['', Validators.required],
+      PermissionsAuthorRoles: ['', Validators.required],
+      PermissionsAllowEditorsToSelfPublish: ''
     });
   }
 
@@ -71,6 +80,9 @@ export class MainSettingsComponent implements OnInit {
     });
     //Get TimeZones
     this.obs_folders$ = this.settingsService.GetPortalFolders();
+    //Get Roles
+    this.obs_editorsRole$ = this.helperService.getRoles();
+    this.obs_authorRole$ = this.helperService.getRoles();
     //Get Settings
     Object.assign(this.settings, this.settingsService.getCurrentSettings());
     if (Object.keys(this.settings).length === 0) {
@@ -117,7 +129,7 @@ export class MainSettingsComponent implements OnInit {
     }
   }
 
-  updateSettings(values: Object) {
+  updateSettings(values: any) {
     Object.assign(this.settings, values);
   }
 }

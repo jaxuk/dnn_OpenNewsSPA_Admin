@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "dist",
+      "outDir": "../dnn_OpenNewsSPA/ng-apps/on-admin/dist",
       "assets": [
         "assets",
         "favicon.ico"

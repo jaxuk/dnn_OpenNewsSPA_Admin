@@ -1,3 +1,5 @@
+import { UserViewModel } from "../index";
+
 export interface SettingsViewModel {
   BasicArticlesPerPage: number;
   BasicRenderingTemplate: string;
@@ -11,10 +13,15 @@ export interface SettingsViewModel {
   FileDefaultFileFolder: string;
   ImageDefaultImageFolder: string;
   SEORemovePagePathFromURL: boolean;
-  NotificationNotifyApproversOnSubmission: boolean;
-  NotificationNotifyApproversOnApproval: boolean;
+  NotificationNotifyEditorsOnSubmission: boolean;
+  NotificationNotifyAuthorsOnApproval: boolean;
   PageTabUrl: string;
   ImageAllowedTypes: string[];
   FileAllowedTypes: string[];
   debugEnabled: boolean;
+  PermissionsEditorRoles: number;
+  PermissionsAuthorRoles: number;
+  PermissionsAllowEditorsToSelfPublish: boolean;
+  PermissionsOnlyShowEditorsAndAuthorsForAuthorSelection: boolean;
+  currentUser: UserViewModel;
 }
