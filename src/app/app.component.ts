@@ -32,9 +32,15 @@ export class AppComponent extends DnnAppComponent {
     return this.settingsService.getCurrentSettings().PageTabUrl;
   }
   isEditor() {
+    if (this.settingsService.getCurrentSettings().currentUser == null) {
+      return false;
+    }
     return this.settingsService.getCurrentSettings().currentUser.isEditor;
   }
   isAuthor() {
+    if (this.settingsService.getCurrentSettings().currentUser == null) {
+      return false;
+    }
     return this.settingsService.getCurrentSettings().currentUser.isAuthor;
   }
   doSearch(e) {

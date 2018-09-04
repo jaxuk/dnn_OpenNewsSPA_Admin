@@ -1,7 +1,7 @@
-<div ngForm [formGroup]="articleForm" (validSubmit)="onSubmit()" validate *ngIf="article.Actions.includes('Edit')">
+<div ngForm [formGroup]="articleForm" (validSubmit)="onSubmit()" validate *ngIf="userCanEdit()">
   <fieldset [disabled]="isSubmitting">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-      <h2>Article</h2>
+      <h2>{{articleHeading()}} <span class="badge badge-{{articleStatusClass()}}">{{article.Status}}</span></h2>
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
           <a *ngIf="deleteable()" target="_blank" class="btn btn-sm btn-outline-secondary" href="{{article.vwURL}}">Preview</a>
@@ -256,7 +256,7 @@
     </fieldset>
   </div>
 </div>
-<div *ngIf="!article.Actions.includes('Edit')">
+<div *ngIf="userCanEdit()==false">
   <div class="alert alert-danger" role="alert">
     <h4 class="alert-heading">Permission Denied</h4>
     <p>You do not have permission to edit this item.</p>

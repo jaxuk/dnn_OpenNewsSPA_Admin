@@ -519,6 +519,54 @@ export class ArticleFormComponent implements OnInit {
   public allowedImages() {
     return this.settingsService.getCurrentSettings().ImageAllowedTypes;
   }
+  public articleHeading() {
+    if (this.article == null) {
+      return "Article";
+    }
+    if (this.article.Title != '') {
+      return 'Editing Article ';
+    } else {
+      return 'New Article';
+    }
+  }
+  public userCanEdit() {
+    if(this.article == null) {
+      return null;
+    }
+    if (this.article.Actions == null) {
+      return null;
+    }
+    if (this.article.Actions.includes('Edit')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  public articleStatusClass() {
+    switch (this.article.Status.toLowerCase()) {
+      case 'draft': {
+        return 'secondary';
+      }
+      case 'deleted': {
+        return 'dark';
+      }
+      case 'needsapproval': {
+        return 'warning';
+      }
+      case 'live': {
+        return 'success';
+      }
+      case 'expired': {
+        return 'dark';
+      }
+      case 'upcoming': {
+        return 'light';
+      }
+      default: {
+        return 'secondary';
+      }
+    } 
+  }
   public joinForInputAccept(iary: string[]) {
     
     if (iary) {
