@@ -91,7 +91,7 @@ export class ArticleFormComponent implements OnInit {
         updateOn: 'blur'
       }],
       Tags: [''],
-      Categories: [''],
+      Categories: this.categoryValidator(),
       PublishTime: [''],
       PublishDate: ['', Validators.required],
       ArchiveTime: [''],
@@ -103,6 +103,14 @@ export class ArticleFormComponent implements OnInit {
       Files: this.fb.array([]),
       CustomTypes: this.fb.group({})
     });
+  }
+
+  categoryValidator() {
+    if (this.settingsService.getCurrentSettings().CategoryRequireCategory) {
+      return ['', Validators.required];
+    } else {
+      return [''];
+    }
   }
 
   validateUrlNotInUse(control: AbstractControl) {
