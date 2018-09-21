@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 //import { FavoriteButtonComponent, FollowButtonComponent } from './buttons';
 import { ListErrorsComponent } from './list-errors.component';
 //import { ShowAuthedDirective } from './show-authed.directive';
+//import { PendingChangesGuard } from './pending-changes.guard';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { ListErrorsComponent } from './list-errors.component';
     //FavoriteButtonComponent,
     //FollowButtonComponent,
     ListErrorsComponent,
+    //PendingChangesGuard,
     //ShowAuthedDirective
   ],
   exports: [
@@ -37,6 +39,7 @@ import { ListErrorsComponent } from './list-errors.component';
     ReactiveFormsModule,
     HttpClientModule,
     ListErrorsComponent,
+    //PendingChangesGuard,
     RouterModule,
     //ShowAuthedDirective
   ]

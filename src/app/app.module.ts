@@ -53,6 +53,7 @@ import { DynamicFormModule } from './shared/dynamic-form/dynamic-form.module';
 import { ImporterComponent } from './importer/importer.component';
 import { MyArticlesComponent } from './my-articles/my-articles.component';
 import { ApproveArticlesComponent } from './approve-articles/approve-articles.component';
+import { PendingChangesGuard } from './shared/pending-changes.guard';
 
 export function getBaseHref(platformLocation: PlatformLocation): string {
   return platformLocation.getBaseHrefFromDOM();
@@ -117,6 +118,7 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
     ArticlesService,
     TagsService,
     CustomFieldsService,
+    PendingChangesGuard,
     FilesService,
     {
       provide: APP_BASE_HREF,

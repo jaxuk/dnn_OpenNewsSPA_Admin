@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ComponentCanDeactivate } from '../shared/pending-changes.guard';
 
 import {
   SettingsViewModel,
@@ -19,7 +20,17 @@ import { AbstractControl } from '@angular/forms/src/model';
   templateUrl: './main-settings.component.html',
   styleUrls: ['./main-settings.component.scss']
 })
-export class MainSettingsComponent implements OnInit {
+export class MainSettingsComponent implements OnInit, ComponentCanDeactivate {
+
+  // @HostListener allows us to also guard against browser refresh, close, etc.
+  @HostListener('window:beforeunload')
+  canDeactivate(): Observable<boolean> | boolean {
+    // insert logic to check if there are pending changes here;
+    // returning true will navigate without confirmation
+    // returning false will show a confirm dialog before navigating away
+    return this.settingsForm.untouched;
+  }
+
   settings: SettingsViewModel = {} as SettingsViewModel;
   settingsForm: FormGroup;
   errors: Object = {};

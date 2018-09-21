@@ -46,6 +46,14 @@ export class HelperService {
       }));
   }
 
+  getImportLog(): Observable<string[]> {
+    console.log('GetImportLog()');
+    return this.apiService.post('/API/dnn_OpenNewsSPA/Helper/GetImportLog')
+      .pipe(map(data => {
+        return data;
+      }));
+  }
+
   getNaModules(): Observable<any> {
     console.log('GetAll GetNAModules()');
     return this.apiService.post('/API/dnn_OpenNewsSPA/Helper/GetNAModules')
@@ -54,9 +62,9 @@ export class HelperService {
       }));
   }
 
-  importModule(naModeulId): Observable<any> {
+  importModule(naModeulId, resetIdentity, identityInsert, clearLog): Observable<any> {
     console.log('importModule()');
-    return this.apiService.post('/API/dnn_OpenNewsSPA/Helper/ImportFromNAModule', { naModeulId: naModeulId, oaModeulId: -1 })
+    return this.apiService.post('/API/dnn_OpenNewsSPA/Helper/ImportFromNAModule', { naModeulId: naModeulId, oaModeulId: -1, resetIdentity: resetIdentity, identityInsert: identityInsert, clearLog: clearLog})
       .pipe(map(data => {
         return data;
       }));

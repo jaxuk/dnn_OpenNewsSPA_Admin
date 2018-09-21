@@ -23,6 +23,9 @@ export class DynamicFormComponent implements OnChanges, OnInit {
   @Output()
   submit: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output()
+  formBuilt: EventEmitter<any> = new EventEmitter<any>();
+
   @Input() 
   form: FormGroup;
 
@@ -56,7 +59,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
           const config = this.config.find((control) => control.name === name);
           this.form.addControl(name, this.createControl(config));
         });
-
+      this.formBuilt.emit(this.form);
     }
   }
 

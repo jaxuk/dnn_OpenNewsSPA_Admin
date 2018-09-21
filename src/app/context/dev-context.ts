@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class DevContext implements ContextInfo {
   ignoreMissingServicesFramework = false;
-  forceUse: boolean = true;
+  forceUse: boolean = false;
 
   moduleId: number = 542;
   tabId: number = 137;

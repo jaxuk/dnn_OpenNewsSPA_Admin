@@ -1,7 +1,7 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, OnChanges, ViewEncapsulation, ChangeDetectorRef
+  Component, OnInit, Input, Output, EventEmitter, OnChanges, ViewEncapsulation, ChangeDetectorRef, HostListener 
 } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, CanDeactivate } from '@angular/router';
 //import { NgForm } from '@angular/forms';
 import { FormBuilder, FormArray, AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
@@ -21,7 +21,8 @@ import {
   ArticleViewModel,
   TagViewModel,
   UserViewModel,
-  FileUploadModel,
+  FileUploadModel,
+
   fileRet,
   FilesService,
   FileViewModel,
@@ -29,6 +30,7 @@ import {
   CustomDefModel
 } from '../shared';
 import { SortablejsOptions } from 'angular-sortablejs/dist';
+import { ComponentCanDeactivate } from '../shared/pending-changes.guard';
 
 
 @Component({
@@ -37,7 +39,17 @@ import { SortablejsOptions } from 'angular-sortablejs/dist';
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./article-form.component.scss']
 })
-export class ArticleFormComponent implements OnInit {
+export class ArticleFormComponent implements OnInit, ComponentCanDeactivate  {
+
+  // @HostListener allows us to also guard against browser refresh, close, etc.
+  @HostListener('window:beforeunload')
+  canDeactivate(): Observable<boolean> | boolean {
+    // insert logic to check if there are pending changes here;
+    // returning true will navigate without confirmation
+    // returning false will show a confirm dialog before navigating away
+    return this.articleForm.untouched;
+  }
+
   public imageUploads: FileViewModel[] = [];
   public fileUploads: FileViewModel[] = [];
   public customDefs: CustomDefModel[] = [];
@@ -163,6 +175,10 @@ export class ArticleFormComponent implements OnInit {
     //  });
     //}
   }
+  dynFormBuilt() {
+    console.log('dynFormBuilt()');
+    this.ModelToForm();
+  }
   addCustomObjectControl(cDef: CustomDefModel) {
     const control = <FormArray>this.articleForm.controls["CustomTypes"];
     control.push(this.initCustomObjectControl(cDef));
@@ -242,6 +258,8 @@ export class ArticleFormComponent implements OnInit {
   private ModelToForm() {
     this.initFileControls('Images', this.article.Images);
     this.initFileControls('Files', this.article.Files);
+    console.log('customTypes');
+    console.log(this.article.CustomTypes);
     this.articleForm.patchValue({
       Title: this.article.Title,
       Summary: this.article.Summary,
@@ -264,7 +282,6 @@ export class ArticleFormComponent implements OnInit {
       Images: this.article.Images,
       CustomTypes: (this.article.CustomTypes == null ? {} : this.article.CustomTypes)
     });
-    this.setAuthorTextValue();
   }
   private FormToModel() {
     var f = this.articleForm.value;
@@ -314,16 +331,7 @@ export class ArticleFormComponent implements OnInit {
     file.Description = con.Description;
     return file;
   }
-  private setAuthorTextValue() {
-    //Set the textbox value of the typeahead manually.
-    if (this.authors != null && this.article != null) {
-      var author = this.authors.find(a => a.id === this.article.AuthorID);
-      if (author != null) {
-        var ic = (<HTMLInputElement>document.querySelector("[formcontrolname='Author'] input"));
-        ic.value = author.name;
-      }
-    }
-  }
+  
   private getTagsFromModel() {
     if (this.article.Tags == null) {
       return null;
@@ -402,7 +410,6 @@ export class ArticleFormComponent implements OnInit {
       map(data => data)
     ).subscribe(data => {
       this.authors = data;
-      this.setAuthorTextValue();
     });
     this.obs_allcategories$.pipe(
       map(data=>data)
@@ -416,9 +423,11 @@ export class ArticleFormComponent implements OnInit {
     ).subscribe(data => {
       this.initCustomObjects(data);
       this.customDefs = data;
+      
     });
 
     this.loadArticle();
+    
   }
 
   public AutoArchiveOnChange(event): void {
@@ -538,6 +547,7 @@ export class ArticleFormComponent implements OnInit {
     }
   }
   public userCanEdit() {
+    //return true;
     if(this.article == null) {
       return null;
     }
@@ -551,6 +561,9 @@ export class ArticleFormComponent implements OnInit {
     }
   }
   public articleStatusClass() {
+    if (this.article == null || this.article.Status == null) {
+      return '';
+    }
     switch (this.article.Status.toLowerCase()) {
       case 'draft': {
         return 'secondary';
@@ -589,9 +602,15 @@ export class ArticleFormComponent implements OnInit {
     }
   }
   isEditor() {
+    if (this.settingsService.getCurrentSettings().currentUser == null) {
+      return false;
+    }
     return this.settingsService.getCurrentSettings().currentUser.isEditor;
   }
   isAuthor() {
+    if (this.settingsService.getCurrentSettings().currentUser == null) {
+      return false;
+    }
     return this.settingsService.getCurrentSettings().currentUser.isAuthor;
   }
   public allowedFiles() {

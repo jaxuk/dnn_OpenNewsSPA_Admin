@@ -11,17 +11,18 @@ import { RenderTemplatesComponent } from './render-templates/render-templates.co
 import { EmailTemplatesComponent } from './email-templates/email-templates.component';
 import { CustomFieldsComponent } from './custom-fields/custom-fields.component';
 import { ImporterComponent } from './importer/importer.component';
+import { PendingChangesGuard } from './shared/pending-changes.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'articles', component: ArticlesComponent },
-  { path: 'article/:id', component: ArticleFormComponent },
+  { path: 'article/:id', component: ArticleFormComponent, canDeactivate: [PendingChangesGuard] },
   { path: 'categories', component: CategoriesComponent },
   { path: 'tags', component: TagsComponent },
   { path: 'render-templates', component: RenderTemplatesComponent },
   { path: 'custom-fields', component: CustomFieldsComponent },
   { path: 'email-templates', component: EmailTemplatesComponent },
-  { path: 'main-settings', component: MainSettingsComponent },
+  { path: 'main-settings', component: MainSettingsComponent, canDeactivate: [PendingChangesGuard] },
   { path: 'import', component: ImporterComponent },
   { path: 'dashboard', component: DashboardComponent }
 ];

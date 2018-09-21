@@ -15,14 +15,33 @@
   <div class="input-group">
     <select class="custom-select" id="ddNaModule">
       <option selected>Choose...</option>
-      <option *ngFor="let opt of naModules"
+      <option *ngFor="let opt of naModules$"
               value="{{ opt.Key }}">
         {{ opt.Value }}
       </option>
     </select>
     <div class="input-group-append">
+      <div class="input-group-text">
+        <input type="checkbox" id="cbResetIdentity">
+        Reset Identity
+      </div>
+      <div class="input-group-text">
+        <input type="checkbox" id="cbIdentityInsert">
+        Identity Insert
+      </div>
+      <div class="input-group-text">
+        <input type="checkbox" id="cbClearLog">
+        Clear Log
+      </div>
       <button class="btn btn-primary" type="button" (click)="importModule()">Import</button>
     </div>
   </div>
 </fieldset>
+<hr />
+<h5>Import Log</h5>
+<ul>
+  <li *ngFor="let logItem of importLogData$">
+    {{logItem}}
+  </li>
+</ul>
 

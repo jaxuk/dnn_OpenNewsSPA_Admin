@@ -1,11 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src",
     "\\src\\app",
-    "\\src\\app\\main-settings",
+    "\\src\\app\\shared\\models",
+    "\\src\\app\\shared\\services",
     "\\src\\environments"
   ],
-  "SelectedNode": "\\src\\app\\main-settings\\main-settings.component.html",
+  "SelectedNode": "\\package.json",
   "PreviewInSolutionExplorer": false
 }

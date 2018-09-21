@@ -13,8 +13,8 @@
       </div>
     </div>
     <div class="row">
-      <div class="col"></div>
-      <div class="col-8">
+      <div class="col-2 d-none d-md-block"></div>
+      <div class="col">
         <div class="article-form">
           <div class="form-group">
             <input (blur)="titleChanged($event)" formControlName="Title" type="text" class="form-control form-control-lg"
@@ -190,7 +190,7 @@
               <div class="card-body" [formGroupName]="cDef.TypeName"> 
                 <h6 class="card-title">{{cDef.Name}}</h6>
                 <dynamic-form
-                    
+                    (formBuilt)="dynFormBuilt()"
                     [config]="cDef.Fields"
                     [form]="articleForm.controls['CustomTypes'].controls[cDef.TypeName]">
                 </dynamic-form>
@@ -228,7 +228,7 @@
           </div>
         </div>
       </div>
-      <div class="col">
+      <div class=" d-none d-md-block">
         
       </div>
     </div>
