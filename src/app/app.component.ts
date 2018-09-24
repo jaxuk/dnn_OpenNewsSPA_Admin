@@ -37,6 +37,9 @@ export class AppComponent extends DnnAppComponent {
     }
     return this.settingsService.getCurrentSettings().currentUser.isEditor;
   }
+  toggleSideNav() {
+    document.querySelector('#sidenav').classList.toggle('active');
+  }
   isAuthor() {
     if (this.settingsService.getCurrentSettings().currentUser == null) {
       return false;
